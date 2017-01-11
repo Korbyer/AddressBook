@@ -28,13 +28,7 @@ public class AddActivity extends AppCompatActivity{
             final EditText txtHouse = (EditText) findViewById(R.id.house);
             final EditText txtEmail=(EditText) findViewById(R.id.email);
 
-        // 날짜는 현재 날짜로 고정
-        // 현재 시간 구하기
-        /*long now = System.currentTimeMillis();
-        Date date = new Date(now);
-        // 출력될 포맷 설정
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
-        etDate.setText(simpleDateFormat.format(date));*/
+
 
         // DB에 데이터 추가
         Button insert = (Button) findViewById(R.id.insert);
