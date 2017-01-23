@@ -1,69 +1,42 @@
 package com.example.admin.addressbook;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.CursorAdapter;
 import android.widget.TextView;
-
-import java.util.List;
 
 /**
  * Created by admin on 2017-01-12.
  */
-public class AddressAdapter extends BaseAdapter {
-
-    private List<AddressInfo> addressInfoList;
-    private Context context;
-
-    public AddressAdapter(List<AddressInfo> addressInfoList, Context context) {
-        this.addressInfoList = addressInfoList;
-        this.context = context;
+public class AddressAdapter extends CursorAdapter{
+    public AddressAdapter(Context context, Cursor cursor){
+        super(context,cursor,0);
     }
 
     @Override
-    public int getCount() {
-        return addressInfoList.size();
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        return LayoutInflater.from(context).inflate(R.layout.content_list,parent,false);
     }
 
     @Override
-    public Object getItem(int position) {
-        return addressInfoList.get(position);
-    }
+    public void bindView(View view, Context context, Cursor cursor) {
+        TextView adName=(TextView)view.findViewById(R.id.name);
+        TextView adCell=(TextView)view.findViewById(R.id.cell);
+        TextView adHouse=(TextView)view.findViewById(R.id.house);
+        TextView adEmail=(TextView)view.findViewById(R.id.email);
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+        String name=cursor.getString(cursor.getColumnIndex("name"));
+        String cell=cursor.getString(cursor.getColumnIndex("cell"));
+        String house=cursor.getString(cursor.getColumnIndex("house"));
+        String email=cursor.getString(cursor.getColumnIndex("email"));
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+        adName.setText(name);
+        adCell.setText(cell);
+        adHouse.setText(house);
+        adEmail.setText(email);
 
-        AddressHolder holder = null;
-        if(convertView == null){
-            holder = new AddressHolder();
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.content_list, parent, false);
-
-            holder.txtName = (TextView) convertView.findViewById(R.id.name);
-            holder.txtCell = (TextView) convertView.findViewById(R.id.cell);
-            holder.txtHouse = (TextView) convertView.findViewById(R.id.house);
-            holder.txtEmail = (TextView) convertView.findViewById(R.id.email);
-
-        }
-        else{
-            holder = (AddressHolder) convertView.getTag();
-        }
-
-        AddressInfo addAdressInfo = (AddressInfo) getItem(position);
-
-        holder.txtName.setText(addAdressInfo.getName());
-        holder.txtCell.setText(addAdressInfo.getCell());
-        holder.txtHouse.setText(addAdressInfo.getHouse());
-        holder.txtEmail.setText(addAdressInfo.getEmail());
-
-        convertView.setTag(holder);
-        return convertView;
     }
 }

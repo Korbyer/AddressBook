@@ -6,29 +6,31 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by admin on 2017-01-11.
  */
 
 public class AddActivity extends AppCompatActivity{
-        @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    DBController dbController;
+    TextView result;
+    EditText txtName;
+    EditText txtCell;
+    EditText txtHouse;
+    EditText txtEmail;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
-        final DBController dbController = new DBController(getApplicationContext(), "ADDRESSBOOK.db", null, 1);
-
-        // 테이블에 있는 모든 데이터 출력
-            //
-            final TextView result = (TextView) findViewById(R.id.result);
-
-            final EditText txtName = (EditText) findViewById(R.id.name);
-            final EditText txtCell = (EditText) findViewById(R.id.cell);
-            final EditText txtHouse = (EditText) findViewById(R.id.house);
-            final EditText txtEmail=(EditText) findViewById(R.id.email);
-
-
+        dbController=new DBController(getApplicationContext(),"ADDRESSBOOK.db",null,1);
+        result = (TextView) findViewById(R.id.result);
+        txtName = (EditText) findViewById(R.id.name);
+        txtCell = (EditText) findViewById(R.id.cell);
+        txtHouse = (EditText) findViewById(R.id.house);
+        txtEmail=(EditText) findViewById(R.id.email);
 
         // DB에 데이터 추가
         Button insert = (Button) findViewById(R.id.insert);
@@ -42,6 +44,7 @@ public class AddActivity extends AppCompatActivity{
 
                 dbController.insert(name,cell,house,email);
                 result.setText(dbController.getResult());
+                Toast.makeText(AddActivity.this,"추가되었습니다!",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -57,6 +60,7 @@ public class AddActivity extends AppCompatActivity{
 
                 dbController.update(name,cell,house,email);
                 result.setText(dbController.getResult());
+                Toast.makeText(AddActivity.this,"수정되었습니다!",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -69,6 +73,7 @@ public class AddActivity extends AppCompatActivity{
 
                 dbController.delete(name);
                 result.setText(dbController.getResult());
+                Toast.makeText(AddActivity.this,"삭제되었습니다!",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -78,6 +83,7 @@ public class AddActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 result.setText(dbController.getResult());
+                Toast.makeText(AddActivity.this,"조회되었습니다.",Toast.LENGTH_SHORT).show();
             }
         });
     }
